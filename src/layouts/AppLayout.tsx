@@ -15,10 +15,13 @@ const AppLayout: React.FC = () => {
   const title = Object.entries(pageTitles).find(([key]) => pathname.startsWith(key))?.[1] ?? 'TaskFlow';
 
   return (
-    <div style={{ display: 'flex', height: '100vh', background: 'var(--bg-base)', overflow: 'hidden' }}>
-      <Sidebar />
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', marginLeft: 240, overflow: 'hidden' }}>
-        <Navbar title={title} />
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden', background: 'var(--bg-base)' }}>
+      {/* Navbar spans full width across the top */}
+      <Navbar title={title} />
+
+      {/* Body: sidebar + content side by side, below the navbar */}
+      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+        <Sidebar />
         <main style={{
           flex: 1,
           overflowY: 'auto',

@@ -1,9 +1,16 @@
 import React from 'react';
-import { User, Mail, Shield, Layers, Crown, Users } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { User, Mail, Shield, Layers, Crown, Users, LogOut } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 
 const Profile: React.FC = () => {
-  const { user } = useAuthStore();
+  const { user, logout } = useAuthStore();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   const infoRows = [
     { icon: User,   label: 'Full Name',     value: user?.name,  color: 'var(--accent)',  bg: 'var(--accent-subtle)',  border: 'rgba(245,158,11,0.20)' },
@@ -109,6 +116,34 @@ const Profile: React.FC = () => {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Sign Out */}
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <button
+          onClick={handleLogout}
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            padding: '10px 20px', borderRadius: 10,
+            background: 'var(--red-subtle)',
+            border: '1px solid rgba(244,63,94,0.25)',
+            color: 'var(--red)',
+            fontSize: 14, fontWeight: 600,
+            cursor: 'pointer',
+            transition: 'all 0.18s',
+          }}
+          onMouseEnter={e => {
+            (e.currentTarget as HTMLButtonElement).style.background = 'rgba(244,63,94,0.2)';
+            (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(244,63,94,0.5)';
+          }}
+          onMouseLeave={e => {
+            (e.currentTarget as HTMLButtonElement).style.background = 'var(--red-subtle)';
+            (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(244,63,94,0.25)';
+          }}
+        >
+          <LogOut size={15} strokeWidth={1.8} />
+          Sign Out
+        </button>
       </div>
     </div>
   );

@@ -8,6 +8,35 @@
 
 @layer base {
   :root {
+    /* Light mode */
+    --bg-base: #f8fafc;
+    --bg-surface: #ffffff;
+    --bg-elevated: #f1f5f9;
+    --bg-hover: #e2e8f0;
+    --border: rgba(0,0,0,0.08);
+    --border-strong: rgba(0,0,0,0.15);
+
+    --accent: #f59e0b;
+    --accent-hover: #d97706;
+    --accent-glow: rgba(245, 158, 11, 0.25);
+    --accent-subtle: rgba(245, 158, 11, 0.15);
+
+    --blue: #3b82f6;
+    --blue-subtle: rgba(59,130,246,0.10);
+    --green: #22c55e;
+    --green-subtle: rgba(34,197,94,0.10);
+    --red: #f43f5e;
+    --red-subtle: rgba(244,63,94,0.10);
+    --orange: #fb923c;
+    --orange-subtle: rgba(251,146,60,0.10);
+
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+  }
+
+  .dark {
+    /* Dark mode */
     --bg-base: #0a0c10;
     --bg-surface: #111318;
     --bg-elevated: #181b22;
@@ -79,8 +108,8 @@
   }
   
   option {
-    background-color: #181b22;
-    color: #f1f3f7;
+    background-color: var(--bg-elevated);
+    color: var(--text-primary);
   }
 }
 

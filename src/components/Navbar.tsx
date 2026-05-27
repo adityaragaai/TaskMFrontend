@@ -1,50 +1,99 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Bell, Search, LogIn } from 'lucide-react';
+import { Bell, Search, LogIn, Sun, Moon, Layers } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
+import { useThemeStore } from '../store/themeStore';
 
 interface NavbarProps {
   title: string;
 }
 
+const iconBtn: React.CSSProperties = {
+  width: 36, height: 36,
+  borderRadius: 10,
+  background: 'var(--bg-elevated)',
+  border: '1px solid var(--border)',
+  display: 'flex', alignItems: 'center', justifyContent: 'center',
+  cursor: 'pointer',
+  color: 'var(--text-muted)',
+  transition: 'all 0.18s',
+  flexShrink: 0,
+};
+
 const Navbar: React.FC<NavbarProps> = ({ title }) => {
   const { user } = useAuthStore();
+  const { theme, toggleTheme } = useThemeStore();
   const navigate = useNavigate();
 
   return (
     <header style={{
-      height: 60,
+      height: 64,
       background: 'var(--bg-surface)',
       borderBottom: '1px solid var(--border)',
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'space-between',
+      gap: 16,
       padding: '0 24px',
       position: 'sticky',
       top: 0,
       zIndex: 20,
       backdropFilter: 'blur(12px)',
     }}>
-      {/* Left – title */}
-      <div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 500 }}>TaskFlow</span>
-          <span style={{ color: 'var(--border-strong)', fontSize: 12 }}>/</span>
-          <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>{title}</span>
+
+      {/* ── Left: brand + page title ── */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
+        {/* Logo */}
+        <div style={{
+          width: 34, height: 34, borderRadius: 9,
+          background: 'var(--accent)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          boxShadow: '0 4px 12px rgba(245,158,11,0.30)',
+          flexShrink: 0,
+        }}>
+          <Layers size={17} color="#0a0c10" strokeWidth={2.5} />
         </div>
+        {/* Name + subtitle */}
+        <div style={{ lineHeight: 1 }}>
+          <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>
+            TaskFlow
+          </p>
+          <p style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 2, fontWeight: 500 }}>
+            Team Manager
+          </p>
+        </div>
+        {/* Separator */}
+        <div style={{ width: 1, height: 28, background: 'var(--border)', margin: '0 4px' }} />
+        {/* Current page */}
+        <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-secondary)' }}>{title}</span>
       </div>
 
-      {/* Right – actions */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        {/* Search bar */}
+      {/* ── Center: search (fills available space) ── */}
+      <div style={{
+        flex: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
         <div style={{
           display: 'flex', alignItems: 'center', gap: 8,
           background: 'var(--bg-elevated)',
           border: '1px solid var(--border)',
-          borderRadius: 8, padding: '6px 12px',
-          width: 200,
-        }}>
-          <Search size={13} color="var(--text-muted)" />
+          borderRadius: 10,
+          padding: '7px 14px',
+          width: '100%',
+          maxWidth: 400,
+          transition: 'border-color 0.18s, box-shadow 0.18s',
+        }}
+        onFocus={(e) => {
+          (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--accent)';
+          (e.currentTarget as HTMLDivElement).style.boxShadow = '0 0 0 3px var(--accent-subtle)';
+        }}
+        onBlur={(e) => {
+          (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border)';
+          (e.currentTarget as HTMLDivElement).style.boxShadow = 'none';
+        }}
+        >
+          <Search size={14} color="var(--text-muted)" strokeWidth={1.8} />
           <input
             type="text"
             placeholder="Search..."
@@ -54,20 +103,30 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
             }}
           />
         </div>
+      </div>
+
+      {/* ── Right: actions + user info ── */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+
+        {/* Theme toggle */}
+        <button
+          onClick={toggleTheme}
+          style={iconBtn}
+          onMouseEnter={e => {
+            (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--border-strong)';
+            (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-primary)';
+          }}
+          onMouseLeave={e => {
+            (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--border)';
+            (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-muted)';
+          }}
+        >
+          {theme === 'dark' ? <Sun size={15} strokeWidth={1.8} /> : <Moon size={15} strokeWidth={1.8} />}
+        </button>
 
         {/* Notification bell */}
         <button
-          style={{
-            width: 34, height: 34,
-            borderRadius: 8,
-            background: 'var(--bg-elevated)',
-            border: '1px solid var(--border)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            cursor: 'pointer',
-            position: 'relative',
-            color: 'var(--text-muted)',
-            transition: 'all 0.18s',
-          }}
+          style={{ ...iconBtn, position: 'relative' }}
           onMouseEnter={e => {
             (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--border-strong)';
             (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-primary)';
@@ -80,7 +139,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
           <Bell size={15} strokeWidth={1.8} />
           {user && (
             <span style={{
-              position: 'absolute', top: 6, right: 6,
+              position: 'absolute', top: 7, right: 7,
               width: 6, height: 6, borderRadius: '50%',
               background: 'var(--accent)',
               border: '1.5px solid var(--bg-surface)',
@@ -88,25 +147,58 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
           )}
         </button>
 
-        {/* User avatar / Login button */}
+        {/* Divider */}
+        <div style={{ width: 1, height: 28, background: 'var(--border)', margin: '0 4px' }} />
+
+        {/* User info */}
         {user ? (
-          <div style={{
-            width: 34, height: 34, borderRadius: 8,
-            background: 'linear-gradient(135deg, #f59e0b, #fb923c)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 13, fontWeight: 700, color: '#0a0c10',
-            cursor: 'default',
-            flexShrink: 0,
-            boxShadow: '0 2px 8px rgba(245,158,11,0.25)',
-          }}>
-            {user.name.charAt(0).toUpperCase()}
+          <div
+            onClick={() => navigate('/profile')}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 10,
+              padding: '5px 10px 5px 5px',
+              borderRadius: 10,
+              border: '1px solid var(--border)',
+              background: 'var(--bg-elevated)',
+              cursor: 'pointer',
+              transition: 'all 0.18s',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border-strong)';
+              (e.currentTarget as HTMLDivElement).style.background = 'var(--bg-hover)';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border)';
+              (e.currentTarget as HTMLDivElement).style.background = 'var(--bg-elevated)';
+            }}
+          >
+            {/* Avatar */}
+            <div style={{
+              width: 30, height: 30, borderRadius: 8,
+              background: 'linear-gradient(135deg, #f59e0b, #fb923c)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 12, fontWeight: 700, color: '#0a0c10',
+              flexShrink: 0,
+              boxShadow: '0 2px 6px rgba(245,158,11,0.30)',
+            }}>
+              {user.name.charAt(0).toUpperCase()}
+            </div>
+            {/* Name + role */}
+            <div style={{ lineHeight: 1 }}>
+              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', whiteSpace: 'nowrap' }}>
+                {user.name}
+              </p>
+              <p style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 2, textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 500 }}>
+                {user.role}
+              </p>
+            </div>
           </div>
         ) : (
           <button
             onClick={() => navigate('/login')}
             style={{
               display: 'flex', alignItems: 'center', gap: 6,
-              padding: '6px 14px', borderRadius: 8,
+              padding: '7px 14px', borderRadius: 10,
               background: 'var(--accent)', color: '#0a0c10',
               fontSize: 13, fontWeight: 600,
               border: 'none', cursor: 'pointer',
