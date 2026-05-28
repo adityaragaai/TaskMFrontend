@@ -207,7 +207,7 @@ const Tasks: React.FC = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search tasks..."
-            className="pl-9 pr-4 py-2 bg-elevated border-subtle border rounded-xl text-sm text-primary placeholder:text-muted focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50 transition-all w-52"
+            className="pl-9 pr-4 py-2 bg-elevated border-subtle border rounded-xl text-sm text-primary placeholder:text-muted focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50 transition-all w-40 sm:w-52"
           />
         </div>
 

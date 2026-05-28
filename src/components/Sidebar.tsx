@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
   FolderKanban,
@@ -13,21 +13,17 @@ const navItems = [
   { icon: ClipboardList,   label: 'Tasks',      to: '/tasks'     },
 ];
 
-const Sidebar: React.FC = () => {
+interface SidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const { user } = useAuthStore();
+  const navigate = useNavigate();
 
   return (
-    <aside
-      style={{
-        width: 240,
-        flexShrink: 0,
-        background: 'var(--bg-base)',
-        borderRight: '1px solid var(--border)',
-        display: 'flex',
-        flexDirection: 'column',
-        overflowY: 'auto',
-      }}
-    >
+    <aside className={`sidebar-drawer${isOpen ? ' sidebar-open' : ''}`}>
       {/* Nav */}
       <nav style={{ flex: 1, padding: '14px 12px', display: 'flex', flexDirection: 'column', gap: 2, overflowY: 'auto' }}>
         <p style={{ fontSize: 10, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', padding: '6px 10px 10px' }}>
@@ -39,6 +35,7 @@ const Sidebar: React.FC = () => {
             to={to}
             style={{ animationDelay: `${i * 40}ms` }}
             className="slide-in"
+            onClick={onClose}
           >
             {({ isActive }) => (
               <div style={{
@@ -76,12 +73,16 @@ const Sidebar: React.FC = () => {
       {/* Footer – user info only */}
       {user && (
         <div style={{ padding: '12px', borderTop: '1px solid var(--border)' }}>
-          <div style={{
-            padding: '10px 12px',
-            borderRadius: 10,
-            background: 'var(--bg-elevated)',
-            display: 'flex', alignItems: 'center', gap: 10,
-          }}>
+          <div
+            onClick={() => { navigate('/profile'); onClose(); }}
+            style={{
+              padding: '10px 12px',
+              borderRadius: 10,
+              background: 'var(--bg-elevated)',
+              display: 'flex', alignItems: 'center', gap: 10,
+              cursor: 'pointer',
+            }}
+          >
             <div style={{
               width: 32, height: 32, borderRadius: 8,
               background: 'linear-gradient(135deg, #f59e0b, #fb923c)',
@@ -99,10 +100,7 @@ const Sidebar: React.FC = () => {
       )}
 
       {/* Powered by */}
-      <div style={{
-        padding: '10px 16px 24px',
-        textAlign: 'center',
-      }}>
+      <div style={{ padding: '10px 16px 24px', textAlign: 'center' }}>
         <p style={{ fontSize: 10, color: 'var(--text-muted)', letterSpacing: '0.04em', fontWeight: 500 }}>
           Powered by{' '}
           <span style={{ color: 'var(--accent)', fontWeight: 700 }}>AlgoStrive</span>
