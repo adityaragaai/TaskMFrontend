@@ -6,12 +6,11 @@ A full-stack task and project management application with role-based access (Adm
 
 | Page | URL |
 |------|-----|
-| **Dashboard** | [https://task-m-frontend-9xjj.vercel.app/dashboard](https://task-m-frontend-9xjj.vercel.app/dashboard) |
-| **Login** | [https://task-m-frontend-9xjj.vercel.app/login](https://task-m-frontend-9xjj.vercel.app/login) |
-| **Signup** | [https://task-m-frontend-9xjj.vercel.app/signup](https://task-m-frontend-9xjj.vercel.app/signup) |
-| **Projects** | [https://task-m-frontend-9xjj.vercel.app/projects](https://task-m-frontend-9xjj.vercel.app/projects) |
-| **Tasks** | [https://task-m-frontend-9xjj.vercel.app/tasks](https://task-m-frontend-9xjj.vercel.app/tasks) |
-
+| **Dashboard** | [https://algotaskflow.vercel.app/dashboard](https://algotaskflow.vercel.app/dashboard) |
+| **Login** | [https://algotaskflow.vercel.app/login](https://algotaskflow.vercel.app/login) |
+| **Signup** | [https://algotaskflow.vercel.app/signup](https://algotaskflow.vercel.app/signup) |
+| **Projects** | [https://algotaskflow.vercel.app/projects](https://algotaskflow.vercel.app/projects) |
+| **Tasks** | [https://algotaskflow.vercel.app/tasks](https://algotaskflow.vercel.app/tasks) |
 Frontend is hosted on [Vercel](https://vercel.com). Set backend `CLIENT_URL` to `https://task-m-frontend-9xjj.vercel.app` so CORS allows this origin.
 
 ---
