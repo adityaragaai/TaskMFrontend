@@ -1,11 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Bell, Search, LogIn, Sun, Moon, Layers } from 'lucide-react';
+import { Bell, Search, LogIn, Sun, Moon, Layers, Menu } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { useThemeStore } from '../store/themeStore';
 
 interface NavbarProps {
   title: string;
+  onMenuToggle?: () => void;
 }
 
 const iconBtn: React.CSSProperties = {
@@ -20,7 +21,7 @@ const iconBtn: React.CSSProperties = {
   flexShrink: 0,
 };
 
-const Navbar: React.FC<NavbarProps> = ({ title }) => {
+const Navbar: React.FC<NavbarProps> = ({ title, onMenuToggle }) => {
   const { user } = useAuthStore();
   const { theme, toggleTheme } = useThemeStore();
   const navigate = useNavigate();
@@ -39,6 +40,15 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
       zIndex: 20,
       backdropFilter: 'blur(12px)',
     }}>
+
+      {/* Hamburger — mobile only */}
+      <button
+        className="menu-btn-mobile"
+        onClick={onMenuToggle}
+        aria-label="Toggle menu"
+      >
+        <Menu size={18} strokeWidth={1.8} />
+      </button>
 
       {/* ── Left: brand + page title ── */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
@@ -62,18 +72,21 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
           </p>
         </div>
         {/* Separator */}
-        <div style={{ width: 1, height: 28, background: 'var(--border)', margin: '0 4px' }} />
+        <div className="navbar-separator" style={{ width: 1, height: 28, background: 'var(--border)', margin: '0 4px' }} />
         {/* Current page */}
-        <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-secondary)' }}>{title}</span>
+        <span className="navbar-page-title" style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-secondary)' }}>{title}</span>
       </div>
 
       {/* ── Center: search (fills available space) ── */}
-      <div style={{
-        flex: 1,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
+      <div
+        className="navbar-search"
+        style={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
         <div style={{
           display: 'flex', alignItems: 'center', gap: 8,
           background: 'var(--bg-elevated)',
@@ -106,7 +119,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
       </div>
 
       {/* ── Right: actions + user info ── */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0, marginLeft: 'auto' }}>
 
         {/* Theme toggle */}
         <button
@@ -148,11 +161,12 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
         </button>
 
         {/* Divider */}
-        <div style={{ width: 1, height: 28, background: 'var(--border)', margin: '0 4px' }} />
+        <div className="navbar-separator" style={{ width: 1, height: 28, background: 'var(--border)', margin: '0 4px' }} />
 
         {/* User info */}
         {user ? (
           <div
+            className="navbar-user-chip"
             onClick={() => navigate('/profile')}
             style={{
               display: 'flex', alignItems: 'center', gap: 10,
@@ -184,7 +198,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
               {user.name.charAt(0).toUpperCase()}
             </div>
             {/* Name + role */}
-            <div style={{ lineHeight: 1 }}>
+            <div className="navbar-user-text" style={{ lineHeight: 1 }}>
               <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', whiteSpace: 'nowrap' }}>
                 {user.name}
               </p>

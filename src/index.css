@@ -250,4 +250,105 @@
     0%   { background-position: 200% 0; }
     100% { background-position: -200% 0; }
   }
+
+  /* ── Sidebar drawer (desktop: static, mobile: slide-in overlay) ── */
+  .sidebar-drawer {
+    width: 240px;
+    flex-shrink: 0;
+    background: var(--bg-base);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+  }
+
+  /* Mobile hamburger button — hidden on desktop */
+  .menu-btn-mobile {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+    transition: border-color 0.18s, color 0.18s;
+  }
+  .menu-btn-mobile:hover {
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+  }
+
+  /* Sidebar backdrop — hidden on desktop */
+  .sidebar-backdrop {
+    display: none;
+  }
+
+  /* Mobile guest banner — stacks vertically */
+  .guest-banner-inner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  /* ── Mobile breakpoint ── */
+  @media (max-width: 767px) {
+    /* Show hamburger */
+    .menu-btn-mobile {
+      display: flex;
+    }
+
+    /* Hide navbar search, separator, page title */
+    .navbar-search      { display: none !important; }
+    .navbar-separator   { display: none !important; }
+    .navbar-page-title  { display: none !important; }
+
+    /* Hide user name/role text — show avatar only */
+    .navbar-user-text   { display: none !important; }
+    /* Reduce user chip padding to just the avatar */
+    .navbar-user-chip   { padding: 4px !important; }
+
+    /* Sidebar becomes a fixed slide-in drawer */
+    .sidebar-drawer {
+      position: fixed;
+      left: 0;
+      top: 64px;
+      bottom: 0;
+      z-index: 40;
+      transform: translateX(-100%);
+    }
+    .sidebar-drawer.sidebar-open {
+      transform: translateX(0);
+      box-shadow: 4px 0 32px rgba(0, 0, 0, 0.45);
+    }
+
+    /* Backdrop that dims the rest of the screen */
+    .sidebar-backdrop {
+      display: block;
+      position: fixed;
+      top: 64px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 39;
+    }
+
+    /* Reduce main content padding */
+    .main-content {
+      padding: 16px !important;
+    }
+
+    /* Guest banner stacks on narrow screens */
+    .guest-banner-inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+  }
 }

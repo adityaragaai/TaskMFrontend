@@ -85,29 +85,30 @@ const Dashboard: React.FC = () => {
   /* ── Guest banner ── */
   const GuestBanner = () => (
     <div style={{
-      display: 'flex', alignItems: 'center', gap: 16,
       background: 'var(--accent-subtle)',
       border: '1px solid rgba(245,158,11,0.25)',
       borderRadius: 14, padding: '16px 20px',
       marginBottom: 24,
     }}>
-      <Sparkles size={20} color="var(--accent)" style={{ flexShrink: 0 }} />
-      <div style={{ flex: 1 }}>
-        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)' }}>You're viewing as a guest</p>
-        <p style={{ fontSize: 13, color: 'var(--text-secondary)', marginTop: 2 }}>Sign in to see your real task data and manage your team.</p>
+      <div className="guest-banner-inner">
+        <Sparkles size={20} color="var(--accent)" style={{ flexShrink: 0 }} />
+        <div style={{ flex: 1 }}>
+          <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)' }}>You're viewing as a guest</p>
+          <p style={{ fontSize: 13, color: 'var(--text-secondary)', marginTop: 2 }}>Sign in to see your real task data and manage your team.</p>
+        </div>
+        <button
+          onClick={() => navigate('/login')}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            padding: '8px 16px', borderRadius: 8,
+            background: 'var(--accent)', color: '#0a0c10',
+            fontSize: 13, fontWeight: 700, border: 'none', cursor: 'pointer',
+            whiteSpace: 'nowrap', flexShrink: 0,
+          }}
+        >
+          <LogIn size={13} /> Sign In
+        </button>
       </div>
-      <button
-        onClick={() => navigate('/login')}
-        style={{
-          display: 'flex', alignItems: 'center', gap: 6,
-          padding: '8px 16px', borderRadius: 8,
-          background: 'var(--accent)', color: '#0a0c10',
-          fontSize: 13, fontWeight: 700, border: 'none', cursor: 'pointer',
-          whiteSpace: 'nowrap', flexShrink: 0,
-        }}
-      >
-        <LogIn size={13} /> Sign In
-      </button>
     </div>
   );
 
@@ -241,14 +242,15 @@ const Dashboard: React.FC = () => {
             {overdue.slice(0, 5).map(task => (
               <div key={task._id} style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                flexWrap: 'wrap', gap: 6,
                 padding: '10px 14px', background: 'rgba(255,255,255,0.03)',
                 borderRadius: 10, border: '1px solid rgba(255,255,255,0.05)',
               }}>
-                <div>
+                <div style={{ minWidth: 0 }}>
                   <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>{task.title}</p>
                   <p style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>{task.projectId?.title}</p>
                 </div>
-                <span style={{ fontSize: 12, color: 'var(--red)', fontWeight: 600, flexShrink: 0, marginLeft: 12 }}>
+                <span style={{ fontSize: 12, color: 'var(--red)', fontWeight: 600, flexShrink: 0 }}>
                   {format(task.dueDate)}
                 </span>
               </div>
